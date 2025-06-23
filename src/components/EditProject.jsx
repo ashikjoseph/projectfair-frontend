@@ -6,7 +6,6 @@ import { BASE_URL } from '../services/baseurl';
 import { editUserProjectApi } from '../services/allAPI';
 import { editProjectResponseContext } from '../context/ContextShare';
 
-
 function EditProject({ project }) {
   const { editProjectResponse, setEditProjectResponse } = useContext(editProjectResponseContext)
   const [preview, setPreview] = useState("")
@@ -16,7 +15,7 @@ function EditProject({ project }) {
   const [projectDetails, setProjectDetails] = useState({
     id: project._id,
     title: project.title,
-    language: project.language,
+    technologies: project.technologies,
     github: project.github,
     website: project.website,
     overview: project.overview,
@@ -30,7 +29,7 @@ function EditProject({ project }) {
   const handleReset = () => {
     setProjectDetails({
       title: project.title,
-      language: project.language,
+      technologies: project.technologies,
       github: project.github,
       website: project.website,
       overview: project.overview,
@@ -40,14 +39,14 @@ function EditProject({ project }) {
   }
   const handleUpdate = async (e) => {
     e.preventDefault()
-    const { title, language, github, website, overview, id, projectImage } = projectDetails;
-    if (!title || !language || !github || !website || !overview || !id) {
+    const { title, technologies, github, website, overview, id, projectImage } = projectDetails;
+    if (!title || !technologies || !github || !website || !overview || !id) {
       alert("Please fill the form completely")
     }
     else {
       const reqBody = new FormData();
       reqBody.append("title", title);
-      reqBody.append("language", language);
+      reqBody.append("technologies", technologies);
       reqBody.append("github", github);
       reqBody.append("website", website);
       reqBody.append("overview", overview);
@@ -90,26 +89,28 @@ function EditProject({ project }) {
   }
   return (
     <>
-      <button className='btn'><i class="fa-solid fa-pen-to-square text-info" onClick={handleShow}></i></button>
+      <button className='btn'><i className="fa-solid fa-pen-to-square text-info" onClick={handleShow}></i></button>
 
       <Modal show={show} onHide={handleClose} size='lg'>
         <Modal.Header closeButton>
-          <Modal.Title>Add Project</Modal.Title>
+          <Modal.Title>Edit Project</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
           <div className="row">
-            <div className="col-lg-6">
-              <label htmlFor="projectImageupload" className='m-5'>
+            <div className="col-12 col-md-6 mb-3 mb-md-0">
+              <label htmlFor="projectImageupload" className='d-block text-center'>
                 <input
                   onChange={(e) => setProjectDetails({ ...projectDetails, projectImage: e.target.files[0] })}
                   type="file" style={{ display: "none" }} id='projectImageupload' />
-                <img src={preview ? preview : `${BASE_URL}/uploads/${project.projectImage}`}
-                  height={"200px"} width={"100%"} alt="" />
+                <img
+                  src={preview ? preview : `${BASE_URL}/uploads/${project.projectImage}`}
+                  height={"200px"} width={"100%"} alt="Project"
+                  style={{ objectFit: "contain", cursor: "pointer", borderRadius: '5px', border: '1px solid #ddd' }}
+                />
               </label>
-
             </div>
-            <div className='col-lg-6 d-flex flex-column align-items-center justify-content-center'>
+            <div className='col-12 col-md-6 d-flex flex-column align-items-center justify-content-center'>
               <div className='w-100 mt-3 mb-3'>
                 <input
                   value={projectDetails.title}
@@ -119,9 +120,9 @@ function EditProject({ project }) {
 
               <div className='w-100 mt-3'>
                 <input
-                  value={projectDetails.language}
-                  onChange={(e) => setProjectDetails({ ...projectDetails, language: e.target.value })}
-                  type="text" className='form-control border border-success' placeholder='Languages used' />
+                  value={projectDetails.technologies}
+                  onChange={(e) => setProjectDetails({ ...projectDetails, technologies: e.target.value })}
+                  type="text" className='form-control border border-success' placeholder='Technologies used' />
               </div>
               <div className='w-100 mt-3'>
                 <input

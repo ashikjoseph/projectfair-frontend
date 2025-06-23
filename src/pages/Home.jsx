@@ -23,12 +23,14 @@ function Home() {
   },[])
   return (
     <>
-      <div className='mb-5 bg-success' style={{ width: "100%", height: "100vh" }}>
+      <div className='mb-5 bg-success' style={{ width: "100%", minHeight: "100vh" }}>
         <div className='container-fluid rounded'>
-          <Row className='align-items-center p-5'>
-            <Col sm={12} md={6} lg={6}>
-              <h1 className='text-light mb-3' style={{ fontSize: "70px", fontWeight: "600" }}>Project Fair</h1>
-              <p>One time destination for all web application projects</p>
+          <Row className='align-items-center p-3 p-md-5'>
+            <Col xs={12} md={6} lg={6} className="text-center text-md-start">
+              <h1 className='text-light mb-3' style={{ fontSize: "calc(2.5rem + 2vw)", fontWeight: "600" }}>
+                Project Fair
+              </h1>
+              <p className='text-light fs-5'>One time destination for all web application projects</p>
               {
                 isLoggedIn ?
                   <Link to='/dashboard'>
@@ -39,30 +41,36 @@ function Home() {
                     <button className='btn btn-warning rounded'>Get started</button>
                   </Link>
               }
-
-
             </Col>
-            <Col sm={12} lg={6} md={6}>
-              <img src={homeImage} alt="" height={"450px"}
-                style={{ marginTop: "50px" }}
+            <Col xs={12} md={6} lg={6} className="d-flex justify-content-center mt-4 mt-md-0">
+              <img 
+                src={homeImage} 
+                alt="" 
+                style={{ 
+                  maxWidth: "100%", 
+                  height: "auto", 
+                  marginTop: "50px", 
+                  maxHeight: "450px",
+                  objectFit: "contain"
+                }}
               />
             </Col>
           </Row>
         </div>
       </div>
+
       <div className='mt-5 all-project'>
         <div className='text-center'>
           <h1>Explore My Projects</h1>
           <marquee scrollAmount={20}>
-
-            <div className='d-flex mt-5 mb-5'>
+            <div className='d-flex mt-5 mb-5 flex-wrap justify-content-center'>
               {
-                homeProject.length>0?
-                homeProject.map((item)=>(
-                  <div className='ms-5' style={{width: "400px"}}>
-                  <Projectcard project = {item}/>
+                homeProject.length > 0 ?
+                homeProject.map((item) => (
+                  <div key={item._id} className='mx-3 mb-4' style={{ width: "300px", maxWidth: "100%" }}>
+                    <Projectcard project={item} />
                   </div>
-                )):
+                )) :
                 <p>No projects to load</p>
               }
              </div> 
